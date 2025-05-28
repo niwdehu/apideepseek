@@ -1,23 +1,22 @@
 export default async function handler(req, res) {
-  // CORS headers
+  // ✅ CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-  // Handle preflight request
+  // ✅ Handle preflight (OPTIONS)
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // Only accept POST
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Only POST method allowed' });
+    return res.status(405).json({ error: 'Only POST allowed' });
   }
 
   const { messages } = req.body;
 
   if (!messages || !Array.isArray(messages)) {
-    return res.status(400).json({ error: 'Missing or invalid messages array' });
+    return res.status(400).json({ error: 'Invalid messages' });
   }
 
   try {
